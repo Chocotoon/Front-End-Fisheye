@@ -38,13 +38,31 @@ h1 {
     align-items: center;
     flex-direction: column;
 }
-
+.photographer_section a {
+    text-decoration: none;
+    text-align: center;
+}
 .photographer_section article h2 {
     color: #D3573C;
     font-size: 36px;
+    white-space: nowrap;
+    line-height: 46px;
 }
 
 .photographer_section article img {
     height: 200px;
     width: 200px;
+    border-radius: 100px;
+}
+
+.photographer_section .ville {
+    color: #901C1C;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.photographer_section .prix {
+    color: #757575;
+    font-size: 9px;
+    line-height: 11px;
 }
