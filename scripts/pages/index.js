@@ -1,9 +1,10 @@
+// On récupère les informations des photographes   
     async function getPhotographers() {
         const response = await fetch("./data/photographers.json");
         const photographers = await response.json();
         return photographers;
     }
-
+// On les affiche grâce à templates/photographer.js
     async function displayData(photographers) {
         const photographersSection = document.querySelector(".photographer_section");
 

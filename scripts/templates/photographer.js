@@ -1,3 +1,4 @@
+// factory function pour créer le contenu de la page index.html
 function photographerTemplate(data) {
     const { name, portrait, city, country, tagline, price, id } = data;
 
