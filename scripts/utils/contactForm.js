@@ -1,33 +1,52 @@
+const modal = document.getElementById("contact_modal");
+const mainContent = document.querySelector("main");
+
+
+// Ouverture et fermeture de la modale
 function displayModal() {
-    const modal = document.getElementById("contact_modal");
-    const mainContent = document.querySelector("main");
+    const closeModalBtn = document.querySelector(".modal header button");
+    closeModalBtn.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && modal.style.display === "block") {
+          closeModal();
+        }
+      });
 	modal.style.display = "block";
     modal.setAttribute("aria-hidden", "false");
     modal.setAttribute("aria-describedby", "Formulaire de contact");
+    modal.setAttribute("aria-modal", "true");
     mainContent.setAttribute("aria-hidden", "true");
-    const modalCloseBtn = document.querySelector(".modal header img")
-    modalCloseBtn.focus();
+    modal.focus();
 }
 
 function closeModal() {
-    const modal = document.getElementById("contact_modal");
-    const mainContent = document.querySelector("main");
-    const modalCloseBtn = document.querySelector(".modal header img")
     modal.style.display = "none";
     modal.setAttribute("aria-hidden", "true");
+    modal.removeAttribute("aria-modal");
     mainContent.setAttribute("aria-hidden", "false");
-    modalCloseBtn.focus();
 }
 
-/*document.addEventListener('keydown', e => {
-    const modal = document.getElementById("contact_modal");
-    const keyCode = e.keyCode ? e.keyCode : e.which
+// Navigation au clavier de la modale
+modal.addEventListener("keydown", function (e) {
+    if (e.key === "Tab" && modal.style.display === "block") {
+      const focusableElements = modal.querySelectorAll("input, button, textarea");
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
   
-    if (modal.hasAttribute('aria-hidden') == 'false' && keyCode === 27) {
-        closeModal()
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
     }
- })*/
+  });
 
+  // Vérification des champs de la modale
  const submitBtn = document.querySelector(".contact_button");
  submitBtn.addEventListener("click", validate);
  document.querySelector("form").addEventListener("submit", function (event) {

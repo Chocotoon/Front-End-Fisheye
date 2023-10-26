@@ -81,6 +81,11 @@ article h1 {
     width: 100%;
 }
 
+.modal header button {
+    background-color: #DB8876;
+    border: none;
+}
+
 .modal h3 {
     font-size: 62px;
     font-weight: normal;
