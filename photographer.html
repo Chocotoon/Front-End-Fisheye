@@ -31,10 +31,10 @@
 
     </div>
     <div class="gallerie">
-      <div class="lightbox" role="dialog">
-        <button class="lightbox__close" aria-label ="Close dialog"><i class="fa-solid fa-xmark fa-2xl"></i></button>
-        <button class="lightbox__next" aria-label ="Next image"><i class="fa-solid fa-chevron-right fa-2xl"></i></button>
+      <div class="lightbox" role="dialog" aria-label="image closeup view" aria-hidden="true">
         <button class="lightbox__prev" aria-label ="Previous image"><i class="fa-solid fa-chevron-left fa-2xl"></i></button>
+        <button class="lightbox__next" aria-label ="Next image"><i class="fa-solid fa-chevron-right fa-2xl"></i></button>
+        <button class="lightbox__close" aria-label ="Close dialog"><i class="fa-solid fa-xmark fa-2xl"></i></button>
         <div class="lightbox__container">
           <img src="">
           <video src ="" controls ="true">
@@ -43,7 +43,7 @@
       </div>
     </div>
   </main>
-  <div id="contact_modal" role="dialog" tabindex="-1">
+  <div id="contact_modal" role="dialog" tabindex="-1" aria-hidden="true">
     <div class="modal">
       <header>
         <h2>Contactez-moi</h2>

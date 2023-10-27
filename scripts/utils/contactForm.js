@@ -1,6 +1,6 @@
 const modal = document.getElementById("contact_modal");
 const mainContent = document.querySelector("main");
-
+const modalContent = document.querySelector(".modal")
 
 // Ouverture et fermeture de la modale
 function displayModal() {
@@ -10,6 +10,11 @@ function displayModal() {
           closeModal();
         }
       });
+      modalContent.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && lightbox.style.display === "block") {
+          closeLightbox();
+        }
+      });
 	modal.style.display = "block";
     modal.setAttribute("aria-hidden", "false");
     modal.setAttribute("aria-describedby", "Formulaire de contact");
@@ -17,6 +22,8 @@ function displayModal() {
     mainContent.setAttribute("aria-hidden", "true");
     modal.focus();
 }
+
+
 
 function closeModal() {
     modal.style.display = "none";
