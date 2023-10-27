@@ -11,15 +11,17 @@ const photographersSection = document.querySelector(".photograph-header");
 const gallerie = document.querySelector(".gallerie");
 const formHeader = document.querySelector("#contact_modal .modal");
 
+
+// Affichage des éléments concernant le photographe
+
 async function getPhotographerData() {
     const response = await fetch("./data/photographers.json");
     const data = await response.json();
     const photograph = data.photographers.find(photograph => photograph.id == photographId);
-    console.log(photograph);
     return photograph;
 }
 
-// Affichage des éléments concernant le photographe
+
 getPhotographerData().then((photograph) => {
     const photographersSection = document.querySelector(".photograph-header");
     photographerTemplate(photograph);
@@ -79,22 +81,94 @@ async function getMediaData() {
     return media;
 }
 
-// On génère le contenu media grâce à la factory et aux objets Image eet Video
+
+// Gestion de la lightbox
+let galerieLightbox = [];
+const lightbox = document.querySelector('.lightbox');
+const lightboxImg = document.querySelector('.lightbox img');
+const lightboxVideo = document.querySelector('.lightbox video');
+const closeLightboxBtn = document.querySelector('.lightbox__close');
+const lightboxContainer = document.querySelector(".lightbox__container");
+const arrowRight = document.querySelector(".lightbox__next");
+arrowRight.addEventListener("click", slideRight);
+const arrowLeft = document.querySelector(".lightbox__prev");
+arrowLeft.addEventListener("click", slideLeft);
+const lightboxTitre = document.querySelector(".lightbox__title");
+closeLightboxBtn.addEventListener('click', closeLightbox)
+
+
+// On génère le contenu media grâce à la factory et aux objets Image et Video
 getMediaData(photographId)
     .then(mediaData => {
-
         const mediaFactory = new MediaFactory();
 
-        mediaData.forEach(media => {
+        for (i = 0; i < mediaData.length; i++) {
+            const media = mediaData[i];
             const mediaInstance = mediaFactory.createMedia(media);
             const mediaThumb = mediaInstance.createMediaThumbnail();
+            galerieLightbox.push(media.image ? media.image : media.video);
             gallerie.appendChild(mediaThumb);
-        });
+            
+        }
+        
+        console.log(galerieLightbox)
+        const galerieMediaDOM = document.querySelectorAll(".gallerie img");
+        galerieMediaDOM.forEach((mediaDOM, index) => {
+            mediaDOM.addEventListener('click', () => {
+                currentIndex = index;
+                console.log(currentIndex)
+                lightbox.style.display = 'block';
+                lightboxImg.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex]}`;
+                lightboxVideo.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex]}`;
+                lightboxImg.setAttribute("alt", mediaData[currentIndex].title);
+                
+                lightboxTitre.style.position = "absolute";
+                lightboxTitre.textContent = mediaData[currentIndex].title; 
+                lightboxContainer.appendChild(lightboxTitre)
+            });
+        })
+        
     })
     .catch(error => {
         console.error(error);
     });
 
+
+function closeLightbox() {
+        lightbox.style.display = "none";
+        lightboxTitre.textContent = ""; 
+    }
+
+    
+function slideRight() {
+    currentIndex++;
+    if (currentIndex === galerieLightbox.length) {
+        currentIndex = 0;
+    }
+    lightboxImg.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex]}`;
+    lightboxVideo.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex]}`;
+    lightboxImg.removeAttribute("alt");
+    lightboxImg.setAttribute("alt", mediaData[currentIndex].title);
+    lightboxTitre.textContent = "";
+    lightboxTitre.textContent = mediaData[currentIndex].title;
+}
+
+function slideLeft() {
+    currentIndex--;
+    if (currentIndex === -1) {
+        currentIndex = galerieLightbox.length - 1;
+    }
+    lightboxImg.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex]}`;
+    lightboxVideo.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex]}`;
+    lightboxImg.removeAttribute("alt");
+    lightboxImg.setAttribute("alt", mediaData[currentIndex].title);
+    lightboxTitre.textContent = "";
+    lightboxTitre.textContent = mediaData[currentIndex].title;
+}
+
+
+
+// Gestion du bouton filtre
 const btnFiltre = document.querySelector(".filtre button");
 const filtreIcon = document.querySelector(".filtre button i");
 btnFiltre.addEventListener("click", filtreToggle);
