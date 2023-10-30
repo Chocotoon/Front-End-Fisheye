@@ -39,16 +39,37 @@ class Image {
 
     createMediaThumbnail() {
         const thumbGallerie = document.createElement("div");
+        thumbGallerie.classList.add("media_thumbnail");
         const mediaLegend = document.createElement("div");
         mediaLegend.classList.add("media_legend");
         const img = document.createElement("img");
         img.setAttribute("src", `././assets/photos/${this._photographerId}/${this._image}`); 
         img.setAttribute("aria-label", `${this._title}, closeup view`);
+        img.setAttribute("data-id", this._id)
         const titre = document.createElement("h2");
         titre.textContent = this._title;
         const likesNumber = document.createElement("div");
-        likesNumber.setAttribute("aria-label", "likes")
+        likesNumber.classList.add("media_likes");
+        likesNumber.setAttribute("aria-labelledby", "likes")
         likesNumber.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
+        likesNumber.addEventListener("click", () => updateLikes());
+
+// Update des likes du media
+
+        const updateLikes = () => {
+            if (likesNumber.classList.contains("active")) {
+                this._likes -= 1;
+                likesNumber.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`; 
+                likesNumber.classList.remove("active");
+                likesNumber.removeAttribute("aria-label", "active");
+            } else {
+                this._likes += 1;
+                likesNumber.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
+                likesNumber.classList.add("active");
+                likesNumber.setAttribute("aria-label", "active");
+            }
+        }
+/**************************************************************************/
         thumbGallerie.appendChild(img);
         mediaLegend.appendChild(titre);
         mediaLegend.appendChild(likesNumber);

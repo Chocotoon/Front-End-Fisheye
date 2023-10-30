@@ -36,7 +36,6 @@ getPhotographerData().then((photograph) => {
 // Réécriture du template pour l'adapter aux besoins de la page
 function photographerTemplate(photograph) {
     const { name, portrait, city, country, tagline, price, id } = photograph;
-
     const picture = `././assets/photographers/${portrait}`;
 
     function getUserCardDOM() {
@@ -44,7 +43,7 @@ function photographerTemplate(photograph) {
         const article = document.createElement('article');
         const photographerDiv = document.createElement('div');
         photographerDiv.classList.add('photographer_info')
-        const aside = document.createElement('aside');
+        const aside = document.querySelector('.likes_price');
         const img = document.createElement('img');
         img.setAttribute("src", picture);
         img.setAttribute("alt", name);
@@ -64,7 +63,6 @@ function photographerTemplate(photograph) {
         photographerDiv.appendChild(location);
         photographerDiv.appendChild(description);
         article.appendChild(photographerDiv);
-        article.appendChild(aside);
         aside.appendChild(prix);
         article.appendChild(photographerButton);
         return (article);
@@ -85,32 +83,6 @@ async function getMediaData() {
 // Gestion de la lightbox
 let galerieLightbox = [];
 const lightbox = document.querySelector('.lightbox');
-
-lightbox.addEventListener("keydown", function (e) {
-    if (e.key === "Tab" && lightbox.style.display === "block") {
-      const focusableElements = lightbox.querySelectorAll("button");
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-      
-
-     
-      if (e.shiftKey) {
-        if (document.activeElement === firstElement) {
-          e.preventDefault();
-          lastElement.focus();
-        }
-      } else {
-        if (document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement.focus();
-        }
-      }
-    }
-    if (e.key === "Escape" && lightbox.style.display === "block") {
-        closeLightbox();
-    }
-  });
-
 const lightboxImg = document.querySelector('.lightbox img');
 const lightboxVideo = document.querySelector('.lightbox video');
 const closeLightboxBtn = document.querySelector('.lightbox__close');
@@ -127,65 +99,126 @@ closeLightboxBtn.addEventListener('click', closeLightbox)
 getMediaData(photographId)
     .then(mediaData => {
         const mediaFactory = new MediaFactory();
+        let mediaLikes = 0;
 
         for (i = 0; i < mediaData.length; i++) {
             const media = mediaData[i];
+            mediaLikes = mediaLikes + media.likes;
             const mediaInstance = mediaFactory.createMedia(media);
             const mediaThumb = mediaInstance.createMediaThumbnail();
             galerieLightbox.push(media);
-           // galerieLightbox.push(media.image ? media.image : media.video);
             gallerie.appendChild(mediaThumb);
-            
         }
-        
-        console.log(galerieLightbox)
+
+        // Gestion du nombre total de likes 
+
+        const totalLikes = document.createElement("p");
+        totalLikes.classList.add("total_likes");
+        totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+        totalLikes.innerHTML = "";
+        totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+        const mediaIndivLikes = document.querySelectorAll(".media_likes");
+        mediaIndivLikes.forEach(element => {
+            element.addEventListener("click", function () {
+                if (element.classList.contains("active")) {
+                    mediaLikes += 1;
+                    totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                }
+                else {
+                    mediaLikes -= 1
+                    totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                }
+            });
+        });
+
+        const aside = document.querySelector(".likes_price");
+        aside.appendChild(totalLikes);
+
+
+        // On génère le contenu de la lightbox
+
         const galerieMediaDOM = document.querySelectorAll(".gallerie img");
         galerieMediaDOM.forEach((mediaDOM, index) => {
             mediaDOM.addEventListener('click', () => {
+
                 currentIndex = index;
-                console.log(currentIndex)
                 lightbox.style.display = 'block';
                 lightbox.setAttribute("aria-hidden", "false");
                 mainContent.setAttribute("aria-hidden", "true")
                 lightbox.focus();
-                lightboxImg.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex].image}`;
-                lightboxVideo.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex].video}`;
+                imgID = mediaDOM.getAttribute("data-id");
+                imgName = galerieLightbox.find(element => element.id == imgID);
+                lightboxImg.src = `././assets/photos/${photographId}/${imgName.image}`;
+                lightboxVideo.src = `././assets/photos/${photographId}/${imgName.video}`;
 
-               if (!galerieLightbox[currentIndex].image) {
+                if (!galerieLightbox[currentIndex].image) {
                     lightboxImg.style.display = "none";
                     lightboxVideo.style.display = "block"
                 }
                 else if (!galerieLightbox[currentIndex].video) {
                     lightboxVideo.style.display = "none";
-                    lightboxImg.style.display = "block"
+                    lightboxImg.style.display = "block";
                 }
-                lightboxImg.setAttribute("alt", mediaData[currentIndex].title);
-                
+                lightboxImg.setAttribute("alt", imgName.title);
 
-                lightboxTitre.textContent = mediaData[currentIndex].title; 
+
+                lightboxTitre.textContent = imgName.title;
                 lightboxContainer.appendChild(lightboxTitre)
             });
+
         })
-        
+
     })
+
     .catch(error => {
         console.error(error);
     });
 
+// Gestion de la navigation au clavier de la lightbox
+
+lightbox.addEventListener("keydown", function (e) {
+
+    if (e.key === "Tab" && lightbox.style.display === "block") {
+        const focusableElements = lightbox.querySelectorAll("button");
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+
+        if (e.shiftKey) {
+            if (document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+            }
+        } else {
+            if (document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+            }
+        }
+    }
+    if (e.key === "Escape" && lightbox.style.display === "block") {
+        closeLightbox();
+    }
+    if (e.key === "ArrowRight" && lightbox.style.display === "block") {
+        slideRight();
+    }
+
+    if (e.key === "ArrowLeft" && lightbox.style.display === "block") {
+        slideLeft();
+    }
+});
+
+// Fonctions de navigation dans la lightbox
 
 function closeLightbox() {
-        lightbox.style.display = "none";
-        lightboxTitre.textContent = ""; 
-        lightbox.setAttribute("aria-hidden", "true");
-        mainContent.setAttribute("aria-hidden", "false");
-    }
+    lightbox.style.display = "none";
+    lightboxTitre.textContent = "";
+    lightbox.setAttribute("aria-hidden", "true");
+    mainContent.setAttribute("aria-hidden", "false");
+}
 
-    
-function slideRight() {
-    currentIndex++;
-    if (currentIndex === galerieLightbox.length) {
-        currentIndex = 0;
-    }
+function slideUpdate() {
+
     lightboxImg.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex].image}`;
     lightboxVideo.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex].video}`;
     lightboxImg.removeAttribute("alt");
@@ -200,34 +233,26 @@ function slideRight() {
         lightboxVideo.style.display = "none";
         lightboxImg.style.display = "block"
     }
+
+}
+function slideRight() {
+    slideUpdate()
+    currentIndex = (currentIndex + 1) % galerieLightbox.length;
+
 }
 
 function slideLeft() {
-    currentIndex--;
-    if (currentIndex === -1) {
-        currentIndex = galerieLightbox.length - 1;
-    }
-    lightboxImg.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex].image}`;
-    lightboxVideo.src = `././assets/photos/${photographId}/${galerieLightbox[currentIndex].video}`;
-    lightboxImg.removeAttribute("alt");
-    lightboxImg.setAttribute("alt", galerieLightbox[currentIndex].title);
-    lightboxTitre.textContent = "";
-    lightboxTitre.textContent = galerieLightbox[currentIndex].title;
-    if (!galerieLightbox[currentIndex].image) {
-        lightboxImg.style.display = "none";
-        lightboxVideo.style.display = "block"
-    }
-    else if (!galerieLightbox[currentIndex].video) {
-        lightboxVideo.style.display = "none";
-        lightboxImg.style.display = "block"
-    }
-}
+    currentIndex = (currentIndex - 1 + galerieLightbox.length) % galerieLightbox.length;
+    slideUpdate()
 
+}
 
 
 // Gestion du bouton filtre
 const btnFiltre = document.querySelector(".filtre button");
 const filtreIcon = document.querySelector(".filtre button i");
+const filtreListElements = document.querySelectorAll(".filtre ul li");
+
 btnFiltre.addEventListener("click", filtreToggle);
 
 function filtreToggle() {
@@ -244,3 +269,75 @@ function filtreToggle() {
         }
     }
 }
+
+getMediaData(photographId)
+
+    .then(mediaData => {
+        console.log(mediaData)
+        filtreListElements.forEach(element => {
+
+            element.addEventListener("click", function () {
+
+                value = element.getAttribute("value");
+                sortedData = mediaData.sort(function (a, b) {
+                    if (value === "date") {
+                        if (a.date < b.date) {
+                            return -1;
+                        }
+                        if (a.date > b.date) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+
+                    else if (value === "popularite") {
+                        return a.likes - b.likes;
+                    }
+
+                    else if (value === "titre") {
+                        let nameA = a.title.toUpperCase();
+                        let nameB = b.title.toUpperCase();
+                        if (nameA < nameB) {
+                            return -1;
+                        }
+                        if (nameA > nameB) {
+                            return 1;
+                        }
+                        return 0;
+                    };
+                    element.setAttribute("aria-selected", "true");
+                });
+                console.log(sortedData);
+                gallerie.innerHTML = "";
+                const mediaFactory = new MediaFactory();
+                let mediaLikes = 0;
+
+                for (i = 0; i < sortedData.length; i++) {
+                    const media = sortedData[i];
+                    mediaLikes = mediaLikes + media.likes;
+                    const mediaInstance = mediaFactory.createMedia(media);
+                    const mediaThumb = mediaInstance.createMediaThumbnail();
+                    galerieLightbox.push(media);
+                    gallerie.appendChild(mediaThumb);
+                }
+
+                totalLikes = document.querySelector(".total_likes");
+                totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                totalLikes.innerHTML = "";
+                totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                const mediaIndivLikes = document.querySelectorAll(".media_likes");
+                mediaIndivLikes.forEach(element => {
+                    element.addEventListener("click", function () {
+                        if (element.classList.contains("active")) {
+                            mediaLikes += 1;
+                            totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                        }
+                        else {
+                            mediaLikes -= 1
+                            totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                        }
+                    });
+                });
+            })
+        })
+    })

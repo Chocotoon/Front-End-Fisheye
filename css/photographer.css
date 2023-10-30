@@ -34,12 +34,14 @@ article h1 {
     margin-top: 40px;
 }
 
-.photograph-header article aside {
+.likes_price {
+    display: flex;
+    justify-content: space-around;
     position: fixed;
     background-color: #DB8876;
     bottom: 0;
-    right: 20px;
-    width: 130px;
+    right: 40px;
+    width: 200px;
     text-align: center;
 }
 
@@ -237,12 +239,13 @@ form div textarea {
     max-width: 350px;
 }
 
-div[aria-label="likes"] {
+.media_likes {
+    cursor: pointer;
     display: flex;
     align-items: baseline;
 }
 
-div[aria-label="likes"] i {
+.media_likes i {
     margin-left: 5px;
 }
 
@@ -303,7 +306,8 @@ div[aria-label="likes"] i {
     position: relative;
 }
 
-.lightbox__container img, .lightbox__container video {
+.lightbox__container img,
+.lightbox__container video {
     width: 80%;
     margin-top: 8%;
     height: 600px;
@@ -321,3 +325,4 @@ div[aria-label="likes"] i {
 .prix {
     font-weight: 500;
 }
+

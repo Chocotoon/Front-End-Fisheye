@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
+  
   <link href="css/style.css" rel="stylesheet" type="text/css" />
   <meta charset="utf-8">
   <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -16,38 +17,42 @@
   </header>
   <main id="main">
     <div class="photograph-header">
-      <button class="contact_button" onclick="displayModal()" aria-label="Contact Me">Contactez-moi</button>
+      <article>
+        <button class="contact_button" onclick="displayModal()" aria-label="Contact Me">Contactez-moi</button>
+          <aside class="likes_price"></aside>
+      </article>
     </div>
     <div class="filtre">
       <p>Trier par</p>
       <button id="filtre_btn" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="filtre">
         <i class="fa-solid fa-chevron-down"></i>
         <ul aria-label="Order by">
-          <li role="listbox" aria-activedescendant="filtre_btn" value="popularite"menuitem>Popularité</li>
-          <li role="listbox" aria-activedescendant="filtre_btn" menuitem value="date">Date</li>
-          <li role="listbox" aria-activedescendant="filtre_btn" menuitem value="titre">Titre</li>
+          <li role="listbox" aria-activedescendant="filtre_btn" value="popularite" menuitem>Popularité</li>
+          <li role="listbox" aria-activedescendant="filtre_btn"  value="date" menuitem>Date</li>
+          <li role="listbox" aria-activedescendant="filtre_btn"  value="titre" menuitem>Titre</li>
         </ul>
       </button>
 
     </div>
-    <div class="gallerie">
-      <div class="lightbox" role="dialog" aria-label="image closeup view" aria-hidden="true">
-        <button class="lightbox__prev" aria-label ="Previous image"><i class="fa-solid fa-chevron-left fa-2xl"></i></button>
-        <button class="lightbox__next" aria-label ="Next image"><i class="fa-solid fa-chevron-right fa-2xl"></i></button>
-        <button class="lightbox__close" aria-label ="Close dialog"><i class="fa-solid fa-xmark fa-2xl"></i></button>
+    <section class="gallerie">
+      <div class="lightbox" role="dialog" aria-label="image closeup view" aria-hidden="true" tabindex="0">
+        <button class="lightbox__prev" aria-label="Previous image"><i
+            class="fa-solid fa-chevron-left fa-2xl"></i></button>
+        <button class="lightbox__next" aria-label="Next image"><i class="fa-solid fa-chevron-right fa-2xl"></i></button>
+        <button class="lightbox__close" aria-label="Close dialog"><i class="fa-solid fa-xmark fa-2xl"></i></button>
         <div class="lightbox__container">
-          <img src="">
-          <video src ="" controls ="true">
-            <h2 class = "lightbox__title"></h2>
+          <img src="" alt="">
+          <video src="" controls="true">
+            <h2 class="lightbox__title"></h2>
         </div>
       </div>
-    </div>
+    </section>
   </main>
-  <div id="contact_modal" role="dialog" tabindex="-1" aria-hidden="true">
+  <div id="contact_modal" role="dialog" tabindex="0" aria-hidden="true">
     <div class="modal">
       <header>
         <h2>Contactez-moi</h2>
-        <button><img src="assets/icons/close.svg" alt="Close Contact form" onclick="closeModal()"/></button>
+        <button><img src="assets/icons/close.svg" alt="Close Contact form" onclick="closeModal()" /></button>
       </header>
       <form method="get" action="">
         <div role="group" aria-labelledby="coordonnees">

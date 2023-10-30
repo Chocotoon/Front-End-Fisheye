@@ -10,9 +10,9 @@ function displayModal() {
           closeModal();
         }
       });
-      modalContent.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && lightbox.style.display === "block") {
-          closeLightbox();
+      modal.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && modal.style.display === "block") {
+          closeModal();
         }
       });
 	modal.style.display = "block";
