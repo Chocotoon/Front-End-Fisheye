@@ -49,21 +49,23 @@ class Video {
         const titre = document.createElement("h2");
         titre.textContent = this._title;
         const likesNumber = document.createElement("div");
+        const likesBtn = document.createElement("button")
         likesNumber.classList.add("media_likes");
-        likesNumber.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
         likesNumber.setAttribute("aria-labelledby", "likes")
+        likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
+        likesBtn.addEventListener("click", () => updateLikes());
 
-        likesNumber.addEventListener("click", () => updateLikes());
+// Update des likes du media
 
         const updateLikes = () => {
             if (likesNumber.classList.contains("active")) {
                 this._likes -= 1;
-                likesNumber.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`; 
+                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`; 
                 likesNumber.classList.remove("active");
                 likesNumber.removeAttribute("aria-label", "active");
             } else {
                 this._likes += 1;
-                likesNumber.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
+                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
                 likesNumber.classList.add("active");
                 likesNumber.setAttribute("aria-label", "active");
             }
@@ -71,7 +73,7 @@ class Video {
 /*********************************************************************************/
 
         thumbGallerie.appendChild(videoMedia);
-        
+        likesNumber.appendChild(likesBtn);
         mediaLegend.appendChild(titre);
         mediaLegend.appendChild(likesNumber);
         thumbGallerie.appendChild(mediaLegend);

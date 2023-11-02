@@ -43,34 +43,42 @@ class Image {
         const mediaLegend = document.createElement("div");
         mediaLegend.classList.add("media_legend");
         const img = document.createElement("img");
+        const imgLink = document.createElement("a");
+        imgLink.addEventListener('click', () => {
+            e.preventDefault();
+        })
+        imgLink.setAttribute("tabindex", "0");
+        imgLink.setAttribute("aria-label", `${this._title}, closeup view`);
         img.setAttribute("src", `././assets/photos/${this._photographerId}/${this._image}`); 
-        img.setAttribute("aria-label", `${this._title}, closeup view`);
         img.setAttribute("data-id", this._id)
         const titre = document.createElement("h2");
         titre.textContent = this._title;
         const likesNumber = document.createElement("div");
+        const likesBtn = document.createElement("button")
         likesNumber.classList.add("media_likes");
         likesNumber.setAttribute("aria-labelledby", "likes")
-        likesNumber.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
-        likesNumber.addEventListener("click", () => updateLikes());
+        likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
+        likesBtn.addEventListener("click", () => updateLikes());
 
 // Update des likes du media
 
         const updateLikes = () => {
             if (likesNumber.classList.contains("active")) {
                 this._likes -= 1;
-                likesNumber.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`; 
+                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`; 
                 likesNumber.classList.remove("active");
                 likesNumber.removeAttribute("aria-label", "active");
             } else {
                 this._likes += 1;
-                likesNumber.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
+                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
                 likesNumber.classList.add("active");
                 likesNumber.setAttribute("aria-label", "active");
             }
         }
 /**************************************************************************/
-        thumbGallerie.appendChild(img);
+        likesNumber.appendChild(likesBtn);
+        imgLink.appendChild(img);
+        thumbGallerie.appendChild(imgLink);
         mediaLegend.appendChild(titre);
         mediaLegend.appendChild(likesNumber);
         thumbGallerie.appendChild(mediaLegend);

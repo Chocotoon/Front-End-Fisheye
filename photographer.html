@@ -3,7 +3,7 @@
 
 <head>
   
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" rel="stylesheet" type="text/css">
   <meta charset="utf-8">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
@@ -13,23 +13,23 @@
 
 <body>
   <header>
-    <a href="index.html"><img src="assets/images/logo.png" class="logo" alt="fisheye home page" /></a>
+    <a href="index.html"><img src="assets/images/logo.png" class="logo" alt="fisheye home page"></a>
   </header>
   <main id="main">
     <div class="photograph-header">
-      <article>
+      
         <button class="contact_button" onclick="displayModal()" aria-label="Contact Me">Contactez-moi</button>
           <aside class="likes_price"></aside>
-      </article>
+      
     </div>
     <div class="filtre">
       <p>Trier par</p>
-      <button id="filtre_btn" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="filtre">
+      <button id="filtre_btn" aria-haspopup="listbox" aria-expanded="false" aria-label="filtre">
         <i class="fa-solid fa-chevron-down"></i>
         <ul aria-label="Order by">
-          <li role="listbox" aria-activedescendant="filtre_btn" value="popularite" menuitem>Popularité</li>
-          <li role="listbox" aria-activedescendant="filtre_btn"  value="date" menuitem>Date</li>
-          <li role="listbox" aria-activedescendant="filtre_btn"  value="titre" menuitem>Titre</li>
+          <li tabindex = "0" role="listbox" aria-activedescendant="filtre_btn" value="popularite" menuitem>Popularité</li>
+          <li tabindex = "0" role="listbox" aria-activedescendant="filtre_btn"  value="date" menuitem>Date</li>
+          <li tabindex = "0" role="listbox" aria-activedescendant="filtre_btn"  value="titre" menuitem>Titre</li>
         </ul>
       </button>
 
@@ -42,7 +42,7 @@
         <button class="lightbox__close" aria-label="Close dialog"><i class="fa-solid fa-xmark fa-2xl"></i></button>
         <div class="lightbox__container">
           <img src="" alt="">
-          <video src="" controls="true">
+          <video src="" controls="true"></video>
             <h2 class="lightbox__title"></h2>
         </div>
       </div>
@@ -52,10 +52,10 @@
     <div class="modal">
       <header>
         <h2>Contactez-moi</h2>
-        <button><img src="assets/icons/close.svg" alt="Close Contact form" onclick="closeModal()" /></button>
+        <button><img src="assets/icons/close.svg" alt="Close Contact form" onclick="closeModal()"></button>
       </header>
-      <form method="get" action="">
-        <div role="group" aria-labelledby="coordonnees">
+      <form method="get">
+        
           <div>
             <label for="prenom">Prénom</label>
             <input id="prenom" required>
@@ -68,11 +68,11 @@
             <label for="mail">Email</label>
             <input id="mail" required>
           </div>
-        </div>
-        <div role="group" aria-labelledby="message">
+       
+        
           <label for="message">Votre message</label>
           <textarea name="message" id="message" required></textarea>
-        </div>
+        
         <button class="contact_button" type="submit" aria-label="Send" onclick="validate()">Envoyer</button>
       </form>
     </div>
