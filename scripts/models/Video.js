@@ -49,7 +49,10 @@ class Video {
         const titre = document.createElement("h2");
         titre.textContent = this._title;
         const likesNumber = document.createElement("div");
-        const likesBtn = document.createElement("button")
+        const likesBtn = document.createElement("button");
+        likesBtn.addEventListener('click', () => {
+            e.preventDefault();
+        })
         likesNumber.classList.add("media_likes");
         likesNumber.setAttribute("aria-labelledby", "likes")
         likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
