@@ -44,9 +44,9 @@ class Video {
         mediaLegend.classList.add("media_legend");
         const videoMedia = document.createElement("video");
         videoMedia.setAttribute("src", `././assets/photos/${this._photographerId}/${this._video}`); 
-        videoMedia.setAttribute("controls", "true");
+        videoMedia.setAttribute("controls", "");
         videoMedia.setAttribute("data-id", this._id);
-        const titre = document.createElement("h2");
+        const titre = document.createElement("h2"); 
         titre.textContent = this._title;
         const likesNumber = document.createElement("div");
         const likesBtn = document.createElement("button");
