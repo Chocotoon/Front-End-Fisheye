@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-  
+
   <link href="css/style.css" rel="stylesheet" type="text/css">
   <meta charset="utf-8">
   <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -17,19 +17,25 @@
   </header>
   <main id="main">
     <section class="photograph-header">
-      
-        <button class="contact_button" onclick="displayModal()" aria-label="Contact Me">Contactez-moi</button>
-          <aside class="likes_price"></aside>
-      
+
+      <button class="contact_button" onclick="displayModal()" aria-label="Contact Me">Contactez-moi</button>
+      <aside class="likes_price">
+        <p class="total_likes"></p>
+        <p class="prix"></p>
+      </aside>
+
     </section>
     <section class="filtre">
       <p>Trier par</p>
       <button id="filtre_btn" aria-haspopup="listbox" aria-expanded="false" aria-label="filtre">
-        <i class="fa-solid fa-chevron-down"></i>
+        <span> Popularité </span><i class="fa-solid fa-chevron-down"></i>
         <ul aria-label="Order by">
-          <li tabindex = "0" role="listbox" aria-activedescendant="filtre_btn" value="popularite" menuitem>Popularité</li>
-          <li tabindex = "0" role="listbox" aria-activedescendant="filtre_btn"  value="date" menuitem>Date</li>
-          <li tabindex = "0" role="listbox" aria-activedescendant="filtre_btn"  value="titre" menuitem>Titre</li>
+          <li tabindex="0" role="listbox" aria-activedescendant="filtre_btn" value="Popularite" menuitem
+            aria-label="popularite">Popularité</li>
+          <li tabindex="0" role="listbox" aria-activedescendant="filtre_btn" value="Date" menuitem aria-label="date">
+            Date</li>
+          <li tabindex="0" role="listbox" aria-activedescendant="filtre_btn" value="Titre" menuitem aria-label="titre">
+            Titre</li>
         </ul>
       </button>
 
@@ -43,7 +49,7 @@
         <div class="lightbox__container">
           <img src="" alt="">
           <video src="" controls></video>
-            <h2 class="lightbox__title"></h2>
+          <h2 class="lightbox__title"></h2>
         </div>
       </div>
     </section>
@@ -55,24 +61,24 @@
         <button><img src="assets/icons/close.svg" alt="Close Contact form" onclick="closeModal()"></button>
       </header>
       <form method="get">
-        
-          <div>
-            <label for="prenom">Prénom</label>
-            <input id="prenom" required>
-          </div>
-          <div>
-            <label for="nom">Nom</label>
-            <input id="nom" required>
-          </div>
-          <div>
-            <label for="mail">Email</label>
-            <input id="mail" required>
-          </div>
-       
-        
-          <label for="message">Votre message</label>
-          <textarea name="message" id="message" required></textarea>
-        
+
+        <div>
+          <label for="prenom">Prénom</label>
+          <input id="prenom" required>
+        </div>
+        <div>
+          <label for="nom">Nom</label>
+          <input id="nom" required>
+        </div>
+        <div>
+          <label for="mail">Email</label>
+          <input id="mail" required>
+        </div>
+
+
+        <label for="message">Votre message</label>
+        <textarea name="message" id="message" required></textarea>
+
         <button class="contact_button" type="submit" aria-label="Send" onclick="validate()">Envoyer</button>
       </form>
     </div>

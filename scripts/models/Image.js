@@ -1,19 +1,19 @@
 class Image {
     constructor(data) {
         this._id = data.id,
-        this._photographerId = data.photographerId,
-        this._title = data.title,
-        this._image = data.image, 
-        this._likes = data.likes,
-        this._date = data.date,
-        this._price = data.price
+            this._photographerId = data.photographerId,
+            this._title = data.title,
+            this._image = data.image,
+            this._likes = data.likes,
+            this._date = data.date,
+            this._price = data.price
     }
 
-    get id () {
+    get id() {
         return this._id;
     }
 
-    get photographerId () {
+    get photographerId() {
         return this._photographerId;
     }
 
@@ -21,7 +21,7 @@ class Image {
         return this._title;
     }
 
-    get image () {
+    get image() {
         return this._image;
     }
 
@@ -29,11 +29,11 @@ class Image {
         return this._likes;
     }
 
-    get date () {
+    get date() {
         return this._date;
     }
-    
-    get price () {
+
+    get price() {
         return this._price;
     }
 
@@ -44,31 +44,28 @@ class Image {
         mediaLegend.classList.add("media_legend");
         const img = document.createElement("img");
         const imgLink = document.createElement("a");
-        imgLink.addEventListener('click', () => {
-            e.preventDefault();
-        })
+
         imgLink.setAttribute("tabindex", "0");
         imgLink.setAttribute("aria-label", `${this._title}, closeup view`);
-        img.setAttribute("src", `././assets/photos/${this._photographerId}/${this._image}`); 
+        img.setAttribute("src", `././assets/photos/${this._photographerId}/${this._image}`);
         img.setAttribute("data-id", this._id)
         const titre = document.createElement("h2");
         titre.textContent = this._title;
         const likesNumber = document.createElement("div");
         const likesBtn = document.createElement("button");
-        likesBtn.addEventListener('click', () => {
-            e.preventDefault();
-        })
         likesNumber.classList.add("media_likes");
+        likesBtn.setAttribute("aria-label", "nombre de likes")
         likesNumber.setAttribute("aria-labelledby", "likes")
         likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
         likesBtn.addEventListener("click", () => updateLikes());
 
-// Update des likes du media
+        // Update des likes du media
 
         const updateLikes = () => {
+
             if (likesNumber.classList.contains("active")) {
                 this._likes -= 1;
-                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`; 
+                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
                 likesNumber.classList.remove("active");
                 likesNumber.removeAttribute("aria-label", "active");
             } else {
@@ -78,7 +75,7 @@ class Image {
                 likesNumber.setAttribute("aria-label", "active");
             }
         }
-/**************************************************************************/
+        /**************************************************************************/
         likesNumber.appendChild(likesBtn);
         imgLink.appendChild(img);
         thumbGallerie.appendChild(imgLink);

@@ -1,19 +1,19 @@
 class Video {
     constructor(data) {
         this._id = data.id,
-        this._photographerId = data.photographerId,
-        this._title = data.title,
-        this._video = data.video,
-        this._likes = data.likes,
-        this._date = data.date,
-        this._price = data.price
+            this._photographerId = data.photographerId,
+            this._title = data.title,
+            this._video = data.video,
+            this._likes = data.likes,
+            this._date = data.date,
+            this._price = data.price
     }
 
-    get id () {
+    get id() {
         return this._id;
     }
 
-    get photographerId () {
+    get photographerId() {
         return this._photographerId;
     }
 
@@ -21,7 +21,7 @@ class Video {
         return this._title;
     }
 
-    get video () {
+    get video() {
         return this._video;
     }
 
@@ -29,11 +29,11 @@ class Video {
         return this._likes;
     }
 
-    get date () {
+    get date() {
         return this._date;
     }
-    
-    get price () {
+
+    get price() {
         return this._price;
     }
 
@@ -43,27 +43,25 @@ class Video {
         const mediaLegend = document.createElement("div");
         mediaLegend.classList.add("media_legend");
         const videoMedia = document.createElement("video");
-        videoMedia.setAttribute("src", `././assets/photos/${this._photographerId}/${this._video}`); 
+        videoMedia.setAttribute("src", `././assets/photos/${this._photographerId}/${this._video}`);
         videoMedia.setAttribute("controls", "");
         videoMedia.setAttribute("data-id", this._id);
-        const titre = document.createElement("h2"); 
+        const titre = document.createElement("h2");
         titre.textContent = this._title;
         const likesNumber = document.createElement("div");
         const likesBtn = document.createElement("button");
-        likesBtn.addEventListener('click', () => {
-            e.preventDefault();
-        })
         likesNumber.classList.add("media_likes");
         likesNumber.setAttribute("aria-labelledby", "likes")
+        likesBtn.setAttribute("aria-label", "nombre de likes")
         likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
         likesBtn.addEventListener("click", () => updateLikes());
 
-// Update des likes du media
+        // Update des likes du media
 
         const updateLikes = () => {
             if (likesNumber.classList.contains("active")) {
                 this._likes -= 1;
-                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`; 
+                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
                 likesNumber.classList.remove("active");
                 likesNumber.removeAttribute("aria-label", "active");
             } else {
@@ -73,7 +71,7 @@ class Video {
                 likesNumber.setAttribute("aria-label", "active");
             }
         }
-/*********************************************************************************/
+        /*********************************************************************************/
 
         thumbGallerie.appendChild(videoMedia);
         likesNumber.appendChild(likesBtn);
