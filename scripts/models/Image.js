@@ -43,10 +43,10 @@ class Image {
         const mediaLegend = document.createElement("div");
         mediaLegend.classList.add("media_legend");
         const img = document.createElement("img");
-        const imgLink = document.createElement("a");
+       
 
-        imgLink.setAttribute("tabindex", "0");
-        imgLink.setAttribute("aria-label", `${this._title}, closeup view`);
+        img.setAttribute("tabindex", "0");
+        img.setAttribute("aria-label", `${this._title}, closeup view`);
         img.setAttribute("src", `././assets/photos/${this._photographerId}/${this._image}`);
         img.setAttribute("data-id", this._id)
         const titre = document.createElement("h2");
@@ -56,7 +56,7 @@ class Image {
         likesNumber.classList.add("media_likes");
         likesBtn.setAttribute("aria-label", "nombre de likes")
         likesNumber.setAttribute("aria-labelledby", "likes")
-        likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
+        likesBtn.innerHTML = `${this._likes} <span class="fa-solid fa-heart"></span>`;
         likesBtn.addEventListener("click", () => updateLikes());
 
         // Update des likes du media
@@ -65,20 +65,19 @@ class Image {
 
             if (likesNumber.classList.contains("active")) {
                 this._likes -= 1;
-                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
+                likesBtn.innerHTML = `${this._likes} <span class="fa-solid fa-heart"></span>`;
                 likesNumber.classList.remove("active");
                 likesNumber.removeAttribute("aria-label", "active");
             } else {
                 this._likes += 1;
-                likesBtn.innerHTML = `${this._likes} <i class="fa-solid fa-heart"></i>`;
+                likesBtn.innerHTML = `${this._likes} <span class="fa-solid fa-heart"></span>`;
                 likesNumber.classList.add("active");
                 likesNumber.setAttribute("aria-label", "active");
             }
         }
         /**************************************************************************/
         likesNumber.appendChild(likesBtn);
-        imgLink.appendChild(img);
-        thumbGallerie.appendChild(imgLink);
+        thumbGallerie.appendChild(img);
         mediaLegend.appendChild(titre);
         mediaLegend.appendChild(likesNumber);
         thumbGallerie.appendChild(mediaLegend);

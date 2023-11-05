@@ -19,13 +19,13 @@ function gallerieConstructDOM() {
     gallerie.innerHTML = `
     <div class="lightbox" role="dialog" aria-label="image closeup view" aria-hidden="true" tabindex="0">
       <button class="lightbox__prev" aria-label="Previous image">
-        <i class="fa-solid fa-chevron-left fa-2xl"></i>
+        <span class="fa-solid fa-chevron-left fa-2xl"></span>
       </button>
       <button class="lightbox__next" aria-label="Next image">
-        <i class="fa-solid fa-chevron-right fa-2xl"></i>
+        <span class="fa-solid fa-chevron-right fa-2xl"></span>
       </button>
       <button class="lightbox__close" aria-label="Close dialog">
-        <i class="fa-solid fa-xmark fa-2xl"></i>
+        <span class="fa-solid fa-xmark fa-2xl"></span>
       </button>
       <div class="lightbox__container">
         <img src="" alt="">
@@ -68,27 +68,27 @@ function displayLightboxContent(index) {
     currentIndex = index;
     lightbox.style.display = 'block';
     lightbox.setAttribute("aria-hidden", "false");
-    mainContent.setAttribute("aria-hidden", "true")
+    mainContent.setAttribute("aria-hidden", "true");
     lightbox.focus();
     imgID = target.getAttribute("data-id");
     imgName = galerieLightbox.find(element => element.id == imgID);
     lightboxImg.src = `././assets/photos/${photographId}/${imgName.image}`;
     lightboxVideo.src = `././assets/photos/${photographId}/${imgName.video}`;
 
-    if (!target.tagName === "img") {
+    if (!galerieLightbox[currentIndex].image) {
         lightboxImg.style.display = "none";
         lightboxVideo.style.display = "block"
     }
-    else {
+    else if (!galerieLightbox[currentIndex].video) {
         lightboxVideo.style.display = "none";
-        lightboxImg.style.display = "block";
+        lightboxImg.style.display = "block"
     }
 
     lightboxImg.setAttribute("alt", imgName.title);
     lightboxTitre.textContent = imgName.title;
-    lightboxContainer.appendChild(lightboxTitre)
-
+    lightboxContainer.appendChild(lightboxTitre);
 }
+
 
 // Fonctions de navigation dans la lightbox
 
@@ -174,10 +174,9 @@ function keybordLightbox(e) {
 
 
 
-
 // Gestion du bouton filtre
 const btnFiltre = document.querySelector(".filtre button");
-const filtreIcon = document.querySelector(".filtre button i");
+const filtreIcon = document.querySelector(".filtre button .fa-solid");
 const filtreListElements = document.querySelectorAll(".filtre ul li");
 const btnList = document.querySelector(".filtre button ul")
 const btnFiltreText = document.querySelector(".filtre button span");
@@ -268,14 +267,14 @@ async function getMediaData() {
 // On génère le contenu media grâce à la factory et aux objets Image et Video
 getMediaData(photographId)
     .then(mediaData => {
-        sortedData = mediaData.sort(function (a, b){
-        return a.likes - b.likes;
+        sortedData = mediaData.sort(function (a, b) {
+            return a.likes - b.likes;
         })
         const mediaFactory = new MediaFactory();
         let mediaLikes = 0;
 
-        for (i = 0; i < mediaData.length; i++) {
-            const media = mediaData[i];
+        for (i = 0; i < sortedData.length; i++) {
+            const media = sortedData[i];
             mediaLikes = mediaLikes + media.likes;
             const mediaInstance = mediaFactory.createMedia(media);
             const mediaThumb = mediaInstance.createMediaThumbnail();
@@ -287,19 +286,19 @@ getMediaData(photographId)
         // Gestion du nombre total de likes 
 
         totalLikes = document.querySelector(".total_likes");
-        totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+        totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
         totalLikes.innerHTML = "";
-        totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+        totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
         const mediaIndivLikes = document.querySelectorAll(".media_likes");
         mediaIndivLikes.forEach(element => {
             element.addEventListener("click", function () {
                 if (element.classList.contains("active")) {
                     mediaLikes += 1;
-                    totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                    totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                 }
                 else {
                     mediaLikes -= 1
-                    totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                    totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                 }
             });
         });
@@ -309,16 +308,19 @@ getMediaData(photographId)
 
 
         // On génère le contenu de la lightbox
-        const galerieMediaDOM = document.querySelectorAll(".media_thumbnail img");
+        const galerieMediaDOM = document.querySelectorAll(".media_thumbnail img, .media_thumbnail video");
         galerieMediaDOM.forEach((mediaDOM, index) => {
             mediaDOM.addEventListener('click', () => {
+
                 currentIndex = index;
                 displayLightboxContent(index)
 
             });
-
-            mediaDOM.parentElement.addEventListener('keydown', function (event) {
+        })
+        galerieMediaDOM.forEach((mediaDOM, index) => {
+            mediaDOM.addEventListener('keydown', function (event) {
                 if (event.keyCode === 13 || event.keyCode === 32) {
+
                     currentIndex = index;
                     displayLightboxContent(index)
 
@@ -348,7 +350,7 @@ getMediaData(photographId)
                     }
                 }
 
-                else if (e.key === "Enter") {
+                else if (e.key === "Enter" || e.keyCode === 32) {
                     value = e.target.getAttribute("value");
                     sortedData = mediaData.sort(function (a, b) {
                         if (value === "Date") {
@@ -379,7 +381,7 @@ getMediaData(photographId)
                             return 0;
                         };
                     });
-                    btnFiltreText.innerText =`${value}`
+                    btnFiltreText.innerText = `${value}`
                     btnFiltre.setAttribute("aria-expanded", "false");
                     filtreIcon.classList.remove("fa-chevron-up");
                     filtreIcon.classList.add("fa-chevron-down");
@@ -405,7 +407,7 @@ getMediaData(photographId)
                     gallerie.appendChild(mediaThumb);
                 }
 
-                const galerieMediaDOM = document.querySelectorAll(".media_thumbnail img");
+                const galerieMediaDOM = document.querySelectorAll(".media_thumbnail img, .media_thumbnail video");
                 galerieMediaDOM.forEach((mediaDOM, index) => {
                     mediaDOM.addEventListener('click', () => {
                         currentIndex = index;
@@ -413,7 +415,7 @@ getMediaData(photographId)
 
                     });
 
-                    mediaDOM.parentElement.addEventListener('keydown', function (event) {
+                    mediaDOM.addEventListener('keydown', (event) => {
                         if (event.keyCode === 13 || event.keyCode === 32) {
                             currentIndex = index;
                             displayLightboxContent(index);
@@ -425,19 +427,19 @@ getMediaData(photographId)
                 /*************************************************** * Gestion des likes ********************************/
 
                 totalLikes = document.querySelector(".total_likes");
-                totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                 totalLikes.innerHTML = "";
-                totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                 const mediaIndivLikes = document.querySelectorAll(".media_likes");
                 mediaIndivLikes.forEach(element => {
                     element.addEventListener("click", function () {
                         if (element.classList.contains("active")) {
                             mediaLikes += 1;
-                            totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                            totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                         }
                         else {
                             mediaLikes -= 1
-                            totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                            totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                         }
                     });
                 });
@@ -486,9 +488,8 @@ getMediaData(photographId)
                     element.setAttribute("aria-selected", "true");
                 });
 
-                btnFiltreText.innerText =`${value}`
+                btnFiltreText.innerText = `${value}`
                 gallerieConstructDOM()
-
                 setLightbox();
                 lightbox.addEventListener("keydown", keybordLightbox);
 
@@ -502,15 +503,16 @@ getMediaData(photographId)
                     const mediaThumb = mediaInstance.createMediaThumbnail();
                     galerieLightbox.push(media);
                     gallerie.appendChild(mediaThumb);
-                    const galerieMediaDOM = document.querySelectorAll(".media_thumbnail img");
+                    const galerieMediaDOM = document.querySelectorAll(".media_thumbnail img, .media_thumbnail video");
                     galerieMediaDOM.forEach((mediaDOM, index) => {
                         mediaDOM.addEventListener('click', () => {
+                            console.log("ok")
                             currentIndex = index;
                             displayLightboxContent(index);
 
                         });
 
-                        mediaDOM.parentElement.addEventListener('keydown', function (event) {
+                        mediaDOM.addEventListener('keydown', function (event) {
                             if (event.keyCode === 13 || event.keyCode === 32) {
                                 currentIndex = index;
                                 displayLightboxContent(index);
@@ -523,19 +525,19 @@ getMediaData(photographId)
                 /*************************************************** * Gestion des likes ********************************/
 
                 totalLikes = document.querySelector(".total_likes");
-                totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                 totalLikes.innerHTML = "";
-                totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                 const mediaIndivLikes = document.querySelectorAll(".media_likes");
                 mediaIndivLikes.forEach(element => {
                     element.addEventListener("click", function () {
                         if (element.classList.contains("active")) {
                             mediaLikes += 1;
-                            totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                            totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                         }
                         else {
                             mediaLikes -= 1
-                            totalLikes.innerHTML = `${mediaLikes} <i class="fa-solid fa-heart"></i>`;
+                            totalLikes.innerHTML = `${mediaLikes} <span class="fa-solid fa-heart"></span>`;
                         }
                     });
                 });

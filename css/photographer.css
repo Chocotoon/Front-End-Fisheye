@@ -171,8 +171,9 @@ form textarea {
     font-weight: 600;
 }
 
-#filtre_btn i {
+#filtre_btn span {
     margin-right: 5px;
+    margin-left: 10px;
 }
 
 #filtre_btn[aria-expanded="false"] ul {
@@ -185,7 +186,7 @@ form textarea {
     position: relative;
 }
 
-#filtre_btn[aria-expanded="true"] i {
+#filtre_btn[aria-expanded="true"] .fa-chevron-up {
     z-index: 10;
     position: absolute;
     top: 22px;
@@ -203,7 +204,7 @@ form textarea {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     text-align: left;
-    padding: 35px 15px 5px;
+    padding: 5px 15px 5px;
     box-shadow: 0px 4px 4px #00000040;
 }
 
@@ -264,7 +265,7 @@ form textarea {
     cursor: pointer;
 }
 
-.media_likes button i {
+.media_likes button span {
     margin-left: 5px;
 }
 
