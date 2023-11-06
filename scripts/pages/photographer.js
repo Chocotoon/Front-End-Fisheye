@@ -182,12 +182,50 @@ const btnList = document.querySelector(".filtre button ul")
 const btnFiltreText = document.querySelector(".filtre button span");
 btnFiltre.addEventListener("click", filtreToggle);
 
+// Navigation aux flèches du bouton
+function navigationFiltreBtnArrow(event, index) {
+    if (event.key === "ArrowDown") {
+        event.preventDefault()
+        event.target.blur();
+        const nextIndex = index + 1;
+        if (nextIndex < filtreListElements.length) {
+            filtreListElements[nextIndex].focus();
+        } else {
+            btnFiltre.setAttribute("aria-expanded", "false");
+            filtreIcon.classList.remove("fa-chevron-up");
+            filtreIcon.classList.add("fa-chevron-down");
+            const firstGallerieImage = document.querySelector(".media_thumbnail img, .media_thumbnail video");
+            firstGallerieImage.focus();
+        }
+    } else if (event.key === "ArrowUp") {
+        event.preventDefault()
+        event.target.blur();
+        const prevIndex = index - 1;
+        if (prevIndex >= 0) {
+            filtreListElements[prevIndex].focus();
+        } else {
+            btnFiltre.setAttribute("aria-expanded", "false");
+            filtreIcon.classList.remove("fa-chevron-up");
+            filtreIcon.classList.add("fa-chevron-down");
+            const contactButton = document.querySelector(".contact_button");
+            contactButton.focus();
+        }
+    }
+}
+
+for (let i = 0; i < filtreListElements.length; i++) {
+    filtreListElements[i].addEventListener('keydown', (event) => {
+        navigationFiltreBtnArrow(event, i);
+    });
+}
+
+
 function filtreToggle() {
     if (btnFiltre.getAttribute("aria-expanded") === "false") {
         btnFiltre.setAttribute("aria-expanded", "true")
         filtreIcon.classList.remove("fa-chevron-down");
         filtreIcon.classList.add("fa-chevron-up");
-        btnList.focus()
+        filtreListElements[0].focus();
     }
     window.onclick = function (event) {
         if (event.target != btnFiltre) {
@@ -327,6 +365,37 @@ getMediaData(photographId)
                 }
             });
         })
+
+        // Navigation aux flèches dans la galerie 
+        const galerieFocusable = document.querySelectorAll(".media_thumbnail img, .media_thumbnail video, .media_likes button");
+
+        function navigationGaleryArrow(event, index) {
+            if (event.key === "ArrowRight") {
+                event.target.blur();
+                const nextIndex = index + 1;
+                if (nextIndex < galerieFocusable.length) {
+                    galerieFocusable[nextIndex].focus();
+                } else {
+                    galerieFocusable[0].focus();
+                }
+            } else if (event.key === "ArrowLeft") {
+                event.target.blur();
+                const prevIndex = index - 1;
+                if (prevIndex >= 0) {
+                    galerieFocusable[prevIndex].focus();
+                } else {
+                    galerieFocusable[galerieFocusable.length - 1].focus();
+                }
+            }
+        }
+
+        for (let i = 0; i < galerieFocusable.length; i++) {
+            galerieFocusable[i].addEventListener('keydown', (event) => {
+                navigationGaleryArrow(event, i);
+            });
+        }
+
+
     })
     .catch(error => {
         console.error(error);
@@ -422,6 +491,35 @@ getMediaData(photographId)
 
                         }
                     });
+
+                    // Navigation aux flèches dans la galerie 
+                    const galerieFocusable = document.querySelectorAll(".media_thumbnail img, .media_thumbnail video, .media_likes button");
+
+                    function navigationGaleryArrow(event, index) {
+                        if (event.key === "ArrowRight") {
+                            event.target.blur();
+                            const nextIndex = index + 1;
+                            if (nextIndex < galerieFocusable.length) {
+                                galerieFocusable[nextIndex].focus();
+                            } else {
+                                galerieFocusable[0].focus();
+                            }
+                        } else if (event.key === "ArrowLeft") {
+                            event.target.blur();
+                            const prevIndex = index - 1;
+                            if (prevIndex >= 0) {
+                                galerieFocusable[prevIndex].focus();
+                            } else {
+                                galerieFocusable[galerieFocusable.length - 1].focus();
+                            }
+                        }
+                    }
+
+                    for (let i = 0; i < galerieFocusable.length; i++) {
+                        galerieFocusable[i].addEventListener('keydown', (event) => {
+                            navigationGaleryArrow(event, i);
+                        });
+                    }
                 })
 
                 /*************************************************** * Gestion des likes ********************************/
@@ -519,6 +617,36 @@ getMediaData(photographId)
 
                             }
                         });
+
+
+                        // Navigation aux flèches dans la galerie 
+                        const galerieFocusable = document.querySelectorAll(".media_thumbnail img, .media_thumbnail video, .media_likes button");
+
+                        function navigationGaleryArrow(event, index) {
+                            if (event.key === "ArrowRight") {
+                                event.target.blur();
+                                const nextIndex = index + 1;
+                                if (nextIndex < galerieFocusable.length) {
+                                    galerieFocusable[nextIndex].focus();
+                                } else {
+                                    galerieFocusable[0].focus();
+                                }
+                            } else if (event.key === "ArrowLeft") {
+                                event.target.blur();
+                                const prevIndex = index - 1;
+                                if (prevIndex >= 0) {
+                                    galerieFocusable[prevIndex].focus();
+                                } else {
+                                    galerieFocusable[galerieFocusable.length - 1].focus();
+                                }
+                            }
+                        }
+
+                        for (let i = 0; i < galerieFocusable.length; i++) {
+                            galerieFocusable[i].addEventListener('keydown', (event) => {
+                                navigationGaleryArrow(event, i);
+                            });
+                        }
                     })
                 }
 
