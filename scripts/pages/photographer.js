@@ -12,31 +12,6 @@ const gallerie = document.querySelector(".gallerie");
 const formHeader = document.querySelector("#contact_modal .modal");
 
 
-// Création de la gallerie 
-
-function gallerieConstructDOM() {
-    gallerie.innerHTML = "";
-    gallerie.innerHTML = `
-    <div class="lightbox" role="dialog" aria-label="image closeup view" aria-hidden="true" tabindex="0">
-      <button class="lightbox__prev" aria-label="Previous image">
-        <span class="fa-solid fa-chevron-left fa-2xl"></span>
-      </button>
-      <button class="lightbox__next" aria-label="Next image">
-        <span class="fa-solid fa-chevron-right fa-2xl"></span>
-      </button>
-      <button class="lightbox__close" aria-label="Close dialog">
-        <span class="fa-solid fa-xmark fa-2xl"></span>
-      </button>
-      <div class="lightbox__container">
-        <img src="" alt="">
-        <video src="" controls="true">
-          <h2 class="lightbox__title"></h2>
-        </video>
-      </div>
-    </div>
-  `;
-}
-
 // Gestion de la lightbox
 
 let galerieLightbox = [];
@@ -48,7 +23,6 @@ function setLightbox() {
     lightboxVideo = document.querySelector('.lightbox video');
     lightboxContainer = document.querySelector(".lightbox__container");
     lightboxTitre = document.querySelector(".lightbox__title");
-
     const closeLightboxBtn = document.querySelector('.lightbox__close');
     const arrowRight = document.querySelector(".lightbox__next");
     arrowRight.addEventListener("click", slideRight);
@@ -68,8 +42,8 @@ function displayLightboxContent(index) {
     currentIndex = index;
     lightbox.style.display = 'block';
     lightbox.setAttribute("aria-hidden", "false");
-    mainContent.setAttribute("aria-hidden", "true");
     lightbox.focus();
+    mainContent.setAttribute("aria-hidden", "true");
     imgID = target.getAttribute("data-id");
     imgName = galerieLightbox.find(element => element.id == imgID);
     lightboxImg.src = `././assets/photos/${photographId}/${imgName.image}`;
@@ -77,11 +51,15 @@ function displayLightboxContent(index) {
 
     if (!galerieLightbox[currentIndex].image) {
         lightboxImg.style.display = "none";
-        lightboxVideo.style.display = "block"
+        lightboxVideo.style.display = "block";
+        lightboxVideo.setAttribute("tabindex", "0");
+        lightboxImg.removeAttribute("tabindex")
     }
     else if (!galerieLightbox[currentIndex].video) {
         lightboxVideo.style.display = "none";
-        lightboxImg.style.display = "block"
+        lightboxImg.style.display = "block";
+        lightboxImg.setAttribute("tabindex", "0");
+        lightboxVideo.removeAttribute("tabindex")
     }
 
     lightboxImg.setAttribute("alt", imgName.title);
@@ -141,12 +119,11 @@ function slideLeft() {
 lightbox.addEventListener("keydown", keybordLightbox)
 
 function keybordLightbox(e) {
-
     if (e.key === "Tab" && lightbox.style.display === "block") {
-        const focusableElements = lightbox.querySelectorAll("button");
+        const focusableElements = lightbox.querySelectorAll('button, .lightbox__container video, .lightbox__container img');
+        
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
-
 
         if (e.shiftKey) {
             if (document.activeElement === firstElement) {
@@ -154,7 +131,7 @@ function keybordLightbox(e) {
                 lastElement.focus();
             }
         } else {
-            if (document.activeElement === lastElement) {
+            if (lastElement.matches(":focus")) {
                 e.preventDefault();
                 firstElement.focus();
             }
@@ -177,9 +154,9 @@ function keybordLightbox(e) {
 // Gestion du bouton filtre
 const btnFiltre = document.querySelector(".filtre button");
 const filtreIcon = document.querySelector(".filtre button .fa-solid");
-const filtreListElements = document.querySelectorAll(".filtre ul li");
-const btnList = document.querySelector(".filtre button ul")
-const btnFiltreText = document.querySelector(".filtre button span");
+const filtreListElements = document.querySelectorAll("ul li");
+const btnList = document.querySelector(".filtre ul")
+const btnFiltreText = document.querySelector(".filtre button span[aria-label='filtre by']");
 btnFiltre.addEventListener("click", filtreToggle);
 
 // Navigation aux flèches du bouton
@@ -222,7 +199,9 @@ for (let i = 0; i < filtreListElements.length; i++) {
 
 function filtreToggle() {
     if (btnFiltre.getAttribute("aria-expanded") === "false") {
-        btnFiltre.setAttribute("aria-expanded", "true")
+        btnFiltre.setAttribute("aria-expanded", "true");
+        btnFiltre.setAttribute("aria-hidden", "true");
+        btnList.setAttribute("aria-hidden", "false");
         filtreIcon.classList.remove("fa-chevron-down");
         filtreIcon.classList.add("fa-chevron-up");
         filtreListElements[0].focus();
@@ -230,6 +209,8 @@ function filtreToggle() {
     window.onclick = function (event) {
         if (event.target != btnFiltre) {
             btnFiltre.setAttribute("aria-expanded", "false");
+            btnFiltre.setAttribute("aria-hidden", "false");
+            btnFiltre.setAttribute("aria-hidden", "true")
             filtreIcon.classList.remove("fa-chevron-up");
             filtreIcon.classList.add("fa-chevron-down");
         }
@@ -420,7 +401,7 @@ getMediaData(photographId)
                 }
 
                 else if (e.key === "Enter" || e.keyCode === 32) {
-                    value = e.target.getAttribute("value");
+                    value = e.target.getAttribute("option");
                     sortedData = mediaData.sort(function (a, b) {
                         if (value === "Date") {
                             aDate = new Date(a.date)
@@ -456,7 +437,7 @@ getMediaData(photographId)
                     filtreIcon.classList.add("fa-chevron-down");
 
 
-                    gallerieConstructDOM()
+                    gallerie.innerHTML="";
                     setLightbox();
                     lightbox.addEventListener("keydown", keybordLightbox);
                     gallerie.addEventListener("click", (event) => {
@@ -554,7 +535,7 @@ getMediaData(photographId)
 
             element.addEventListener("click", function () {
 
-                value = element.getAttribute("value");
+                value = element.getAttribute("option");
                 sortedData = mediaData.sort(function (a, b) {
                     if (value === "Date") {
                         aDate = new Date(a.date)
@@ -583,11 +564,12 @@ getMediaData(photographId)
                         }
                         return 0;
                     };
+
                     element.setAttribute("aria-selected", "true");
                 });
 
-                btnFiltreText.innerText = `${value}`
-                gallerieConstructDOM()
+                btnFiltreText.innerText = `${value}`;
+                gallerie.innerHTML="";
                 setLightbox();
                 lightbox.addEventListener("keydown", keybordLightbox);
 
@@ -604,7 +586,6 @@ getMediaData(photographId)
                     const galerieMediaDOM = document.querySelectorAll(".media_thumbnail img, .media_thumbnail video");
                     galerieMediaDOM.forEach((mediaDOM, index) => {
                         mediaDOM.addEventListener('click', () => {
-                            console.log("ok")
                             currentIndex = index;
                             displayLightboxContent(index);
 

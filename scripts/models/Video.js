@@ -45,6 +45,7 @@ class Video {
         const videoMedia = document.createElement("video");
         videoMedia.setAttribute("src", `././assets/photos/${this._photographerId}/${this._video}`);
         videoMedia.setAttribute("data-id", this._id);
+        videoMedia.setAttribute("tabindex", "0");
         const titre = document.createElement("h2");
         titre.textContent = this._title;
         const likesNumber = document.createElement("div");

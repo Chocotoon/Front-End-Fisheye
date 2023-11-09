@@ -171,12 +171,8 @@ form textarea {
     font-weight: 600;
 }
 
-#filtre_btn span {
-    margin-right: 5px;
-    margin-left: 10px;
-}
 
-#filtre_btn[aria-expanded="false"] ul {
+#filtre_btn[aria-expanded="false"] + ul {
     display: none;
 }
 
@@ -193,31 +189,33 @@ form textarea {
     right: 10px;
 }
 
-#filtre_btn[aria-expanded="true"] ul {
+#filtre_btn[aria-expanded="true"] + ul {
     display: block;
     position: absolute;
     background-color: #901C1C;
     width: 140px;
-    left: 0;
-    top: -10px;
+    left: 176px;
+    top: 400px;
     padding-left: 0px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-radius: 5px;
     text-align: left;
     padding: 5px 15px 5px;
     box-shadow: 0px 4px 4px #00000040;
 }
 
-#filtre_btn[aria-expanded="true"] ul li {
+#filtre_btn[aria-expanded="true"] + ul li {
     list-style-type: none;
     border-bottom: 1px white solid;
     font-weight: 700;
     margin-top: 8px;
     height: 25px;
     padding: 5px;
+    display: block;
+    color: white;
+    font-size: 14px;
 }
 
-#filtre_btn[aria-expanded="true"] ul li:last-child {
+#filtre_btn[aria-expanded="true"] + ul li:last-child {
     border-bottom: none;
 }
 
@@ -269,9 +267,6 @@ form textarea {
     margin-left: 5px;
 }
 
-.lightbox {
-    display: none
-}
 
 .lightbox {
     display: none;
@@ -285,6 +280,9 @@ form textarea {
     transition: 300ms;
 }
 
+.lightbox h2 {
+    color: #901C1C;
+}
 .lightbox__next,
 .lightbox__prev,
 .lightbox__close {

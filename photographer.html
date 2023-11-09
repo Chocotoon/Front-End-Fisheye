@@ -29,29 +29,18 @@
       <p>Trier par</p>
       <button id="filtre_btn" aria-haspopup="listbox" aria-expanded="false" aria-label="filtre">
         <span aria-label="filtre by"> Popularité </span><span class="fa-solid fa-chevron-down"></span>
-        <ul aria-label="Order by">
-          <li tabindex="0" role="listbox" aria-activedescendant="filtre_btn" value="Popularite" menuitem
-            aria-label="popularite">Popularité</li>
-          <li tabindex="0" role="listbox" aria-activedescendant="filtre_btn" value="Date" menuitem aria-label="date">
-            Date</li>
-          <li tabindex="0" role="listbox" aria-activedescendant="filtre_btn" value="Titre" menuitem aria-label="titre">
-            Titre</li>
-        </ul>
       </button>
+
+      <ul aria-hidden="true" aria-label="Order by" role="listbox">
+        <li tabindex="0" aria-haspopup="listbox"  aria-label="popularite" option="Popularite">Popularité</li>
+        <li tabindex="0" aria-haspopup="listbox" aria-label="date" option="Date" >
+          Date</li>
+        <li tabindex="0" aria-haspopup="listbox" aria-label="titre" option="Titre" >
+          Titre</li>
+      </ul>
 
     </section>
     <section class="gallerie">
-      <div class="lightbox" role="dialog" aria-label="image closeup view" aria-hidden="true" tabindex="0">
-        <button class="lightbox__prev" aria-label="Previous image"><span
-            class="fa-solid fa-chevron-left fa-2xl"></span></button>
-        <button class="lightbox__next" aria-label="Next image"><span class="fa-solid fa-chevron-right fa-2xl"></span></button>
-        <button class="lightbox__close" aria-label="Close dialog"><span class="fa-solid fa-xmark fa-2xl"></span></button>
-        <div class="lightbox__container">
-          <img src="#" alt="">
-          <video src="#" controls></video>
-          <h2 class="lightbox__title"></h2>
-        </div>
-      </div>
     </section>
   </main>
   <div id="contact_modal" role="dialog" tabindex="0" aria-hidden="true">
@@ -83,7 +72,19 @@
       </form>
     </div>
   </div>
-
+  <div class="lightbox" role="dialog" aria-label="image closeup view" aria-hidden="true" tabindex="0">
+    <button class="lightbox__prev" aria-label="Previous image"><span
+        class="fa-solid fa-chevron-left fa-2xl"></span></button>
+    <button class="lightbox__next" aria-label="Next image"><span
+        class="fa-solid fa-chevron-right fa-2xl"></span></button>
+    <button class="lightbox__close" aria-label="Close dialog"><span
+        class="fa-solid fa-xmark fa-2xl"></span></button>
+    <div class="lightbox__container">
+      <img src="#" alt="">
+      <video src="#" controls></video>
+      <h2 class="lightbox__title"></h2>
+    </div>
+  </div>
   <script src="scripts/models/Image.js"></script>
   <script src="scripts/models/Video.js"></script>
   <script src="scripts/factories/mediaFactory.js"></script>

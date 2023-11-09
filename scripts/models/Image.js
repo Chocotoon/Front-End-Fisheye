@@ -55,6 +55,7 @@ class Image {
         const likesBtn = document.createElement("button");
         likesNumber.classList.add("media_likes");
         likesBtn.setAttribute("aria-label", "nombre de likes")
+        likesBtn.setAttribute("tabindex", "0")
         likesNumber.setAttribute("aria-labelledby", "likes")
         likesBtn.innerHTML = `${this._likes} <span class="fa-solid fa-heart"></span>`;
         likesBtn.addEventListener("click", () => updateLikes());
