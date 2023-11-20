@@ -72,6 +72,7 @@ modal.addEventListener("keydown", function (e) {
     else {
         console.log(val1, val2, val3, val4);
         document.querySelector('form').reset();
+        closeModal();
     }
  }
 

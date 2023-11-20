@@ -200,8 +200,6 @@ for (let i = 0; i < filtreListElements.length; i++) {
 function filtreToggle() {
     if (btnFiltre.getAttribute("aria-expanded") === "false") {
         btnFiltre.setAttribute("aria-expanded", "true");
-        btnFiltre.setAttribute("aria-hidden", "true");
-        btnList.setAttribute("aria-hidden", "false");
         filtreIcon.classList.remove("fa-chevron-down");
         filtreIcon.classList.add("fa-chevron-up");
         filtreListElements[0].focus();
@@ -209,8 +207,6 @@ function filtreToggle() {
     window.onclick = function (event) {
         if (event.target != btnFiltre) {
             btnFiltre.setAttribute("aria-expanded", "false");
-            btnFiltre.setAttribute("aria-hidden", "false");
-            btnFiltre.setAttribute("aria-hidden", "true")
             filtreIcon.classList.remove("fa-chevron-up");
             filtreIcon.classList.add("fa-chevron-down");
         }
